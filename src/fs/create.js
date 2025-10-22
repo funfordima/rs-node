@@ -2,7 +2,7 @@
 import path from 'path';
 import { writeFile } from 'fs/promises';
 
-import { FILES } from '../constants/pathDirectory.js';
+import { BASE_ERROR, FILES } from '../constants/pathDirectory.js';
 import { getFilePath } from '../helpers/getFilePath.js';
 import { checkFileExists } from '../helpers/checkFileExists.js';
 
@@ -12,7 +12,7 @@ const create = async () => {
   const isFileExists = await checkFileExists(filePath);
 
   if (isFileExists) {
-    throw Error('FS operation failed');
+    throw Error(BASE_ERROR);
   }
 
   try {
