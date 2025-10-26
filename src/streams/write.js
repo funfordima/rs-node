@@ -8,24 +8,23 @@ import { checkFileExists } from '../helpers/checkFileExists.js';
 
 const write = async () => {
   const fileName = 'fileToWrite.txt';
-    const filePath = path.resolve(getFilePath(import.meta.url), FILES, fileName);
-    const isFileExists = await checkFileExists(filePath);
-    
-    if (!isFileExists) {
-      throw Error(BASE_ERROR);
-    }
-    
-    const output = createWriteStream(filePath, { encoding: 'utf-8'});
+  const filePath = path.resolve(getFilePath(import.meta.url), FILES, fileName);
+  const isFileExists = await checkFileExists(filePath);
   
-    try {
-      await pipeline(
-        process.stdin, 
-        output
-      );
+  if (!isFileExists) {
+    throw Error(BASE_ERROR);
+  }
   
-    } catch (error) {
-      console.log(error);
-    }
+  const output = createWriteStream(filePath, { encoding: 'utf-8'});
+
+  try {
+    await pipeline(
+      process.stdin, 
+      output
+    );
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 await write();
