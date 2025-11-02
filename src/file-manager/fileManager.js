@@ -2,6 +2,7 @@ import path from 'path';
 
 import { logDirectory } from '../helpers/logDirectory.js';
 import { changeDirectory } from '../helpers/changeDirectory.js';
+import { validatePath } from '../helpers/validatePath.js';
 
 export class FileManager {
   constructor() {
@@ -25,6 +26,22 @@ export class FileManager {
     const newPath = path.join(currentDirectory, '..');
 
     changeDirectory(newPath);
+    logDirectory();
+  }
+
+  cd(...args) {
+    const targetPath = validatePath(args);
+    const currentDirectory = process.cwd();
+    const rootDir = path.parse(currentDirectory).root;
+    const targetRootDir = path.parse(targetPath).root;
+
+    if (targetRootDir !== rootDir) {
+      logDirectory();
+
+      return;
+    }
+
+    changeDirectory(targetPath);
     logDirectory();
   }
 }
