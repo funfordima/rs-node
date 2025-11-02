@@ -1,5 +1,7 @@
 import readline from 'readline';
 
+import { getUserName } from './helpers/getUserName.js';
+
 const init = () => {
   const rl = readline.createInterface({
     input: process.stdin,
@@ -7,7 +9,7 @@ const init = () => {
     prompt: '-->',
   });
 
-  const userName = 'Dima';
+  const userName = getUserName();
 
   rl.question(`Welcome to the File Manager, ${userName}! \n You are currently in ${process.cwd()}`, (input) => {
     if (input === '.exit') {
