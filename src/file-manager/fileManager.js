@@ -1,0 +1,30 @@
+import path from 'path';
+
+import { logDirectory } from '../helpers/logDirectory.js';
+import { changeDirectory } from '../helpers/changeDirectory.js';
+
+export class FileManager {
+  constructor() {
+    if (!FileManager.instance) {
+      FileManager.instance = this;
+    }
+
+    return FileManager.instance;
+  }
+
+   up() {
+    const currentDirectory = process.cwd();
+    const rootDir = path.parse(currentDirectory).root;
+
+    if (currentDirectory === rootDir) {
+      logDirectory();
+
+      return;
+    }
+
+    const newPath = path.join(currentDirectory, '..');
+
+    changeDirectory(newPath);
+    logDirectory();
+  }
+}

@@ -1,6 +1,8 @@
 import readline from 'readline';
 
 import { getUserName } from './helpers/getUserName.js';
+import { getInputParameters } from './helpers/getInputParameters.js';
+import { FileManager } from './file-manager/fileManager.js';
 
 const init = () => {
   const rl = readline.createInterface({
@@ -11,11 +13,15 @@ const init = () => {
 
   const userName = getUserName();
 
-  rl.question(`Welcome to the File Manager, ${userName}! \n You are currently in ${process.cwd()}`, (input) => {
+  rl.question(`Welcome to the File Manager, ${userName}! \n You are currently in ${process.cwd()} \n`, (input) => {
     if (input === '.exit') {
       rl.close();
       return;
     }
+
+    const { method, params } = getInputParameters(input);
+
+    new FileManager()[method](...params);
   });
 
   rl.on('line', (input) => {
@@ -23,6 +29,10 @@ const init = () => {
       rl.close();
       return;
     }
+
+    const { method, params } = getInputParameters(input);
+
+    new FileManager()[method](...params);
   }); 
 
   rl.on('SIGINT', () => rl.close());
