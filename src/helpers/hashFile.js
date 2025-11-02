@@ -2,11 +2,17 @@ import path from 'path';
 import { createHash } from 'crypto';
 import { createReadStream } from 'fs';
 
-import { BASE_ERROR } from '../constants/error.js';
+import { BASE_ERROR, INVALID_INPUT } from '../constants/error.js';
 import { checkFileExists } from './checkFileExists.js';
 import { validatePath } from './validatePath.js';
 
 export const hashFile = async (filePath) => {
+  if (!filePath) {
+    console.log(INVALID_INPUT);
+    
+    return;
+  }
+
   const sourcePath = path.resolve(validatePath([filePath]));
   const hash = createHash('sha256').setEncoding('hex');
   const isSourceFileExists = await checkFileExists(sourcePath);

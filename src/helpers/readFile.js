@@ -1,10 +1,16 @@
 import { createReadStream } from 'fs';
 
-import { BASE_ERROR } from '../constants/error.js';
+import { BASE_ERROR, INVALID_INPUT } from '../constants/error.js';
 import { validatePath } from './validatePath.js';
 import { checkFileExists } from './checkFileExists.js';
 
 export const readFile = async (pathToFile) => {
+  if (!pathToFile) {
+    console.log(INVALID_INPUT);
+    
+    return;
+  }
+
 	const sourcePath = validatePath(pathToFile);
   const isSourceFileExists = await checkFileExists(sourcePath);
 

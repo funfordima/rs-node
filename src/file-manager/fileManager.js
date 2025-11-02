@@ -12,6 +12,8 @@ import { copyFile } from '../helpers/copyFile.js';
 import { deleteFile } from '../helpers/deleteFile.js';
 import { osOperations } from '../helpers/osOperations.js';
 import { hashFile } from '../helpers/hashFile.js';
+import { compressFile } from '../helpers/compressFile.js';
+import { decompressFile } from '../helpers/decompressFile.js';
 
 export class FileManager {
   constructor() {
@@ -111,6 +113,18 @@ export class FileManager {
 
   async hash(filePath) {
     await hashFile(filePath);
+
+    logDirectory();
+  }
+
+  async compress(filePath, destinationPath) {
+    await compressFile(filePath, destinationPath);
+
+    logDirectory();
+  }
+
+  async decompress(filePath, destinationPath) {
+    await decompressFile(filePath, destinationPath);
 
     logDirectory();
   }
