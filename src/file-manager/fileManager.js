@@ -11,6 +11,7 @@ import { renameFile } from '../helpers/renameFile.js';
 import { copyFile } from '../helpers/copyFile.js';
 import { deleteFile } from '../helpers/deleteFile.js';
 import { osOperations } from '../helpers/osOperations.js';
+import { hashFile } from '../helpers/hashFile.js';
 
 export class FileManager {
   constructor() {
@@ -104,6 +105,12 @@ export class FileManager {
 
   os(operation) {
     osOperations(operation);
+
+    logDirectory();
+  }
+
+  async hash(filePath) {
+    await hashFile(filePath);
 
     logDirectory();
   }
