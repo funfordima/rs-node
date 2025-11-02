@@ -8,6 +8,8 @@ import { createDirectory } from '../helpers/createDirectory.js';
 import { readFile } from '../helpers/readFile.js';
 import { addFile } from '../helpers/addFile.js';
 import { renameFile } from '../helpers/renameFile.js';
+import { copyFile } from '../helpers/copyFile.js';
+import { deleteFile } from '../helpers/deleteFile.js';
 
 export class FileManager {
   constructor() {
@@ -76,6 +78,25 @@ export class FileManager {
 
   async rn(filePath, fileName) {
     await renameFile(filePath, fileName);
+
+    logDirectory();
+  }
+
+  async cp(filePath, dirPath) {
+    await copyFile(filePath, dirPath);
+    
+    logDirectory();
+  }
+
+  async mv(filePath, dirPath) {
+    await copyFile(filePath, dirPath);
+    await deleteFile(filePath);
+
+    logDirectory();
+  }
+
+   async rm(filePath) {
+    await deleteFile(filePath);
 
     logDirectory();
   }
