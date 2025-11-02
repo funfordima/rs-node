@@ -4,6 +4,7 @@ import { validatePath } from '../helpers/validatePath.js';
 import { logDirectory } from '../helpers/logDirectory.js';
 import { changeDirectory } from '../helpers/changeDirectory.js';
 import { readDirectory } from '../helpers/readDirectory.js';
+import { createDirectory } from '../helpers/createDirectory.js';
 import { readFile } from '../helpers/readFile.js';
 import { addFile } from '../helpers/addFile.js';
 
@@ -62,6 +63,12 @@ export class FileManager {
 
   async add(fileName) {
     await addFile(fileName);
+
+    logDirectory();
+  }
+
+  async mkdir(dirName) {
+    await createDirectory(dirName);
 
     logDirectory();
   }
