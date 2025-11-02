@@ -1,8 +1,9 @@
 import path from 'path';
 
+import { validatePath } from '../helpers/validatePath.js';
 import { logDirectory } from '../helpers/logDirectory.js';
 import { changeDirectory } from '../helpers/changeDirectory.js';
-import { validatePath } from '../helpers/validatePath.js';
+import { readDirectory } from '../helpers/readDirectory.js';
 
 export class FileManager {
   constructor() {
@@ -42,6 +43,12 @@ export class FileManager {
     }
 
     changeDirectory(targetPath);
+    logDirectory();
+  }
+
+  async ls() {
+    await readDirectory();
+
     logDirectory();
   }
 }
