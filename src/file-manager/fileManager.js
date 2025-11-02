@@ -7,6 +7,7 @@ import { readDirectory } from '../helpers/readDirectory.js';
 import { createDirectory } from '../helpers/createDirectory.js';
 import { readFile } from '../helpers/readFile.js';
 import { addFile } from '../helpers/addFile.js';
+import { renameFile } from '../helpers/renameFile.js';
 
 export class FileManager {
   constructor() {
@@ -69,6 +70,12 @@ export class FileManager {
 
   async mkdir(dirName) {
     await createDirectory(dirName);
+
+    logDirectory();
+  }
+
+  async rn(filePath, fileName) {
+    await renameFile(filePath, fileName);
 
     logDirectory();
   }
