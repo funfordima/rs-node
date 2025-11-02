@@ -1,0 +1,20 @@
+import path from 'path';
+import { mkdir } from 'fs/promises';
+
+import { BASE_ERROR, INVALID_INPUT } from '../constants/error.js';
+
+export const createDirectory = async (dirName) => {
+  if (!dirName) {
+    console.log(INVALID_INPUT);
+    
+    return;
+  }
+
+  const sourcePath = path.resolve(process.cwd(), dirName);
+
+  try {
+    await mkdir(sourcePath, { recursive: true });
+  } catch {
+    console.log(BASE_ERROR);
+  }
+};
