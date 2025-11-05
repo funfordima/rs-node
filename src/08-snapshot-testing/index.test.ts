@@ -7,7 +7,7 @@ describe('generateLinkedList', () => {
     const expectedResult = {
       value: 1,
       next: {
-        value: null, 
+        value: null,
         next: null,
       },
     };

@@ -7,7 +7,11 @@ describe('simpleCalculator tests', () => {
     const resultList = [-3, 2, 7];
 
     testList.forEach((n, i) => {
-      const result = simpleCalculator({ a: n, b: parameter, action: Action.Add });
+      const result = simpleCalculator({
+        a: n,
+        b: parameter,
+        action: Action.Add,
+      });
 
       expect(result).toBe(resultList[i]);
     });
@@ -19,7 +23,11 @@ describe('simpleCalculator tests', () => {
     const resultList = [-7, -2, 3];
 
     testList.forEach((n, i) => {
-      const result = simpleCalculator({ a: n, b: parameter, action: Action.Subtract });
+      const result = simpleCalculator({
+        a: n,
+        b: parameter,
+        action: Action.Subtract,
+      });
 
       expect(result).toBe(resultList[i]);
     });
@@ -31,7 +39,11 @@ describe('simpleCalculator tests', () => {
     const resultList = [-10, 0, 10];
 
     testList.forEach((n, i) => {
-      const result = simpleCalculator({ a: n, b: parameter, action: Action.Multiply });
+      const result = simpleCalculator({
+        a: n,
+        b: parameter,
+        action: Action.Multiply,
+      });
 
       expect(result).toBe(resultList[i]);
     });
@@ -43,7 +55,11 @@ describe('simpleCalculator tests', () => {
     const resultList = [-3, 0, 3];
 
     testList.forEach((n, i) => {
-      const result = simpleCalculator({ a: n, b: parameter, action: Action.Divide });
+      const result = simpleCalculator({
+        a: n,
+        b: parameter,
+        action: Action.Divide,
+      });
 
       expect(result).toBe(resultList[i]);
     });
@@ -55,7 +71,11 @@ describe('simpleCalculator tests', () => {
     const resultList = [25, 0, 25];
 
     testList.forEach((n, i) => {
-      const result = simpleCalculator({ a: n, b: parameter, action: Action.Exponentiate });
+      const result = simpleCalculator({
+        a: n,
+        b: parameter,
+        action: Action.Exponentiate,
+      });
 
       expect(result).toBe(resultList[i]);
     });
@@ -66,7 +86,11 @@ describe('simpleCalculator tests', () => {
     const parameter = 2;
 
     testList.forEach((n) => {
-      const result = simpleCalculator({ a: n, b: parameter, action: 'InvalidAction' });
+      const result = simpleCalculator({
+        a: n,
+        b: parameter,
+        action: 'InvalidAction',
+      });
 
       expect(result).toBe(null);
     });
@@ -77,7 +101,11 @@ describe('simpleCalculator tests', () => {
     const parameter = 'number';
 
     testList.forEach((n) => {
-      const result = simpleCalculator({ a: n, b: parameter, action: Action.Add });
+      const result = simpleCalculator({
+        a: n,
+        b: parameter,
+        action: Action.Add,
+      });
 
       expect(result).toBe(null);
     });

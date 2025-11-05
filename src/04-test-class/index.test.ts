@@ -1,5 +1,11 @@
 import lodash from 'lodash';
-import { getBankAccount, BankAccount, InsufficientFundsError, TransferFailedError, SynchronizationFailedError } from '.';
+import {
+  getBankAccount,
+  BankAccount,
+  InsufficientFundsError,
+  TransferFailedError,
+  SynchronizationFailedError,
+} from '.';
 
 describe('BankAccount', () => {
   const testAmount = 500;
@@ -19,18 +25,24 @@ describe('BankAccount', () => {
   test('should throw InsufficientFundsError error when withdrawing more than balance', () => {
     const insufficientAmount = bankAccount.getBalance() + 1;
 
-    expect(() => bankAccount.withdraw(insufficientAmount)).toThrow(InsufficientFundsError);
+    expect(() => bankAccount.withdraw(insufficientAmount)).toThrow(
+      InsufficientFundsError,
+    );
   });
 
   test('should throw error when transferring more than balance', () => {
     const insufficientAmount = bankAccount.getBalance() + 1;
     const mockBankAccount = jest.mocked<BankAccount>({} as BankAccount);
 
-    expect(() => bankAccount.transfer(insufficientAmount, mockBankAccount)).toThrow(InsufficientFundsError);
+    expect(() =>
+      bankAccount.transfer(insufficientAmount, mockBankAccount),
+    ).toThrow(InsufficientFundsError);
   });
 
   test('should throw error when transferring to the same account', () => {
-    expect(() => bankAccount.transfer(testAmount, bankAccount)).toThrow(TransferFailedError);
+    expect(() => bankAccount.transfer(testAmount, bankAccount)).toThrow(
+      TransferFailedError,
+    );
   });
 
   test('should deposit money', () => {

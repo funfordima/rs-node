@@ -37,7 +37,7 @@ const testCases = [
 ];
 
 describe('simpleCalculator', () => {
- test.each(testCases)(
+  test.each(testCases)(
     'accepts arguments a, b and action - return expected',
     ({ a, b, action, expected }) => {
       expect(simpleCalculator({ a, b, action })).toBe(expected);

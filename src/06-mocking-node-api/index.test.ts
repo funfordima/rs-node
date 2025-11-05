@@ -83,7 +83,7 @@ describe('readFileAsynchronously', () => {
 
   test('should return null if file does not exist', async () => {
     jest.spyOn(fs, 'existsSync').mockReturnValue(false);
-    
+
     expect.assertions(1);
     const result = await readFileAsynchronously(filePath);
 
