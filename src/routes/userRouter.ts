@@ -3,7 +3,7 @@ import { parse } from 'url';
 
 import { routerPrefix } from '../constants/routerPrefix.js';
 import { methodsEnum } from '../constants/methods.js';
-import { getUsers, getUser, createUser } from 'controllers/userController.js';
+import { getUsers, getUser, createUser, updateUser, deleteUser } from 'controllers/userController.js';
 
 export const userRouter = (req: IncomingMessage, res: ServerResponse) => {
   const { pathname } = parse(req.url || "", true);
@@ -23,6 +23,16 @@ export const userRouter = (req: IncomingMessage, res: ServerResponse) => {
 
     case pathname == routerPrefix && method == methodsEnum.POST: {
       createUser(req, res);
+      return;
+    }
+
+    case pathname?.startsWith(routerPrefix) && method == methodsEnum.PUT: {
+      updateUser(req, res);
+      return;
+    }
+
+    case pathname?.startsWith(routerPrefix) && method == methodsEnum.DELETE: {
+      deleteUser(req, res);
       return;
     }
 
