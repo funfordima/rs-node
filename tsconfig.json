@@ -6,6 +6,7 @@
     "esModuleInterop": true,
     "lib": ["ESNext"],
     "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "noUncheckedIndexedAccess": true,
     "strictNullChecks": true,
     "noUnusedLocals": true,

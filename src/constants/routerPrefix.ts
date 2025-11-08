@@ -1,1 +1,1 @@
-export const routerPrefix = 'api/users';
+export const routerPrefix = '/api/users';
