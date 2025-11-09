@@ -5,7 +5,9 @@ export const handleNotFoundRequest = (res: ServerResponse, id: string): void => 
     'Content-type': 'application/json',
   });
 
-  res.end(JSON.stringify({
-    message: `User with id: ${id} doesn't exist`,
-  }));
+  res.end(
+    JSON.stringify({
+      message: `User with id: ${id} doesn't exist`,
+    }),
+  );
 };

@@ -7,5 +7,5 @@ export class User {
     public username: string = opt.username ?? '',
     public age: number | null = opt.age ?? null,
     public hobbies: string[] = opt.hobbies ?? [],
-  ) { }
+  ) {}
 }

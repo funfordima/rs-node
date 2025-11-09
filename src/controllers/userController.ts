@@ -8,7 +8,7 @@ import { User } from 'models/user.js';
 import { handleNotFoundRequest } from 'helpers/handleNotFoundRequest.js';
 import { parseBody } from 'helpers/parseBody.js';
 
-export const getUsers = (req: IncomingMessage, res: ServerResponse): void => {
+export const getUsers = (_: IncomingMessage, res: ServerResponse): void => {
   const users: User[] = userModel.findAll();
 
   res.writeHead(200, {
@@ -21,16 +21,14 @@ export const getUsers = (req: IncomingMessage, res: ServerResponse): void => {
 export const getUser = (req: IncomingMessage, res: ServerResponse): void => {
   const userId: string = getUserId(req);
 
-  if (!userId || !hasValidId(userId))
-  {
+  if (!userId || !hasValidId(userId)) {
     handleBadRequest(res);
     return;
   }
 
   const user: User | undefined = userModel.findById(userId);
 
-  if (!user)
-  {
+  if (!user) {
     handleNotFoundRequest(res, userId);
     return;
   }
@@ -47,10 +45,9 @@ export const createUser = async (req: IncomingMessage, res: ServerResponse): Pro
 
   const hasValidUserNameType = typeof username === 'string';
   const hasValidAgeType = typeof age === 'number';
-  const hasValidHobbies = Array.isArray(hobbies) && hobbies.every(h => typeof h === 'string');
+  const hasValidHobbies = Array.isArray(hobbies) && hobbies.every((h) => typeof h === 'string');
 
-  if (!username || !hasValidUserNameType || !hasValidAgeType || age < 0 || !hasValidHobbies)
-  {
+  if (!username || !hasValidUserNameType || !hasValidAgeType || age < 0 || !hasValidHobbies) {
     handleBadRequest(res, 'Request body does not contain required fields.');
     return;
   }
@@ -67,8 +64,7 @@ export const createUser = async (req: IncomingMessage, res: ServerResponse): Pro
 export const updateUser = async (req: IncomingMessage, res: ServerResponse): Promise<void> => {
   const userId: string = getUserId(req);
 
-  if (!userId || !hasValidId(userId))
-  {
+  if (!userId || !hasValidId(userId)) {
     handleBadRequest(res);
     return;
   }
@@ -77,10 +73,9 @@ export const updateUser = async (req: IncomingMessage, res: ServerResponse): Pro
 
   const hasValidUserNameType = typeof username === 'string';
   const hasValidAgeType = typeof age === 'number';
-  const hasValidHobbies = Array.isArray(hobbies) && hobbies.every(h => typeof h === 'string');
+  const hasValidHobbies = Array.isArray(hobbies) && hobbies.every((h) => typeof h === 'string');
 
-  if (!username || !hasValidUserNameType || !hasValidAgeType || age < 0 || !hasValidHobbies)
-  {
+  if (!username || !hasValidUserNameType || !hasValidAgeType || age < 0 || !hasValidHobbies) {
     handleBadRequest(res, 'Request body does not contain required fields.');
     return;
   }
@@ -102,8 +97,7 @@ export const updateUser = async (req: IncomingMessage, res: ServerResponse): Pro
 export const deleteUser = async (req: IncomingMessage, res: ServerResponse): Promise<void> => {
   const userId: string = getUserId(req);
 
-  if (!userId || !hasValidId(userId))
-  {
+  if (!userId || !hasValidId(userId)) {
     handleBadRequest(res);
     return;
   }
@@ -121,4 +115,3 @@ export const deleteUser = async (req: IncomingMessage, res: ServerResponse): Pro
 
   res.end();
 };
-

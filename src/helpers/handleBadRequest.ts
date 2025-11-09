@@ -5,7 +5,9 @@ export const handleBadRequest = (res: ServerResponse, message: string = 'Bad req
     'Content-type': 'application/json',
   });
 
-  res.end(JSON.stringify({
-    message,
-  }));
+  res.end(
+    JSON.stringify({
+      message,
+    }),
+  );
 };

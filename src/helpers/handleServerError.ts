@@ -5,7 +5,9 @@ export const handleServerError = (res: ServerResponse, err: unknown): void => {
     'Content-type': 'application/json',
   });
 
-  res.end(JSON.stringify({
-    message: `An internal server error occurred: ${err}`,
-  }));
+  res.end(
+    JSON.stringify({
+      message: `An internal server error occurred: ${err}`,
+    }),
+  );
 };

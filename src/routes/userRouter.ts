@@ -3,14 +3,19 @@ import { parse } from 'url';
 
 import { routerPrefix } from '../constants/routerPrefix.js';
 import { methodsEnum } from '../constants/methods.js';
-import { getUsers, getUser, createUser, updateUser, deleteUser } from 'controllers/userController.js';
+import {
+  getUsers,
+  getUser,
+  createUser,
+  updateUser,
+  deleteUser,
+} from 'controllers/userController.js';
 
 export const userRouter = (req: IncomingMessage, res: ServerResponse) => {
-  const { pathname } = parse(req.url || "", true);
+  const { pathname } = parse(req.url || '', true);
   const method = req.method;
 
-  switch(true)
-  {
+  switch (true) {
     case pathname == routerPrefix && method == methodsEnum.GET: {
       getUsers(req, res);
       return;
@@ -41,9 +46,11 @@ export const userRouter = (req: IncomingMessage, res: ServerResponse) => {
         'Content-type': 'application/json',
       });
 
-      res.end(JSON.stringify({
-        message: 'Not Found',
-      }));
+      res.end(
+        JSON.stringify({
+          message: 'Not Found',
+        }),
+      );
       return;
     }
   }
