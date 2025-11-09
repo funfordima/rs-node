@@ -2,8 +2,8 @@ import 'dotenv/config';
 
 import { createServer } from 'http';
 
-import { handleServerError } from 'helpers/handleServerError.js';
-import { userRouter } from 'routes/userRouter.js';
+import { handleServerError } from './helpers/handleServerError.js';
+import { userRouter } from './routes/userRouter.js';
 
 const PORT = process.env.PORT || 3000;
 

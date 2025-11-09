@@ -1,12 +1,12 @@
 import { IncomingMessage, ServerResponse } from 'http';
 
-import userModel from 'models/userModel.js';
-import { getUserId } from 'helpers/getUserId.js';
-import { handleBadRequest } from 'helpers/handleBadRequest.js';
-import { hasValidId } from 'helpers/hasValidId.js';
-import { User } from 'models/user.js';
-import { handleNotFoundRequest } from 'helpers/handleNotFoundRequest.js';
-import { parseBody } from 'helpers/parseBody.js';
+import userModel from '../models/userModel.js';
+import { getUserId } from '../helpers/getUserId.js';
+import { handleBadRequest } from '../helpers/handleBadRequest.js';
+import { hasValidId } from '../helpers/hasValidId.js';
+import { User } from '../models/user.js';
+import { handleNotFoundRequest } from '../helpers/handleNotFoundRequest.js';
+import { parseBody } from '../helpers/parseBody.js';
 
 export const getUsers = (_: IncomingMessage, res: ServerResponse): void => {
   const users: User[] = userModel.findAll();
