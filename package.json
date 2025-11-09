@@ -14,7 +14,8 @@
     "lint:fix": "eslint ./src --fix",
     "test": "npm run build && node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand",
     "start:dev": "nodemon --exec npx tsx watch src/index.ts",
-    "start:prod": "npm run build && node --enable-source-maps dist/index.js"
+    "start:prod": "npm run build && node --enable-source-maps dist/index.js",
+    "start:multi": "cross-env MULTI=true nodemon --exec npx tsx src/cluster.ts"
   },
   "author": "DmytroLitvinov",
   "license": "ISC",
