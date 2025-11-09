@@ -1,107 +1,49 @@
-# Basic testing
+##   CRUD API       ##
 
-⚠️ DO NOT SUBMIT PULL REQUESTS TO THIS REPO ⚠️
+1. Install Node.js LTS version
+2. Install NVM link: <a href="https://github.com/coreybutler/nvm-windows">Download</a>
+3. Set your NodeJs version up to 24.14.0 or upper (nvm install 24.14.0 LTS and nvm use)
+4. Fork this repository
+5. Go to branch feat/crud-api
+6. Install all dependencies: npm i
+7. To run the app use scripts form package.json. Use command npm run ....
+8. Deadline: 10/11/2025
+9. Done date: 08/11/2025
+10. Total score: 222/222
 
----
+# Task: <a href="https://github.com/AlreadyBored/nodejs-assignments/blob/main/assignments/crud-api/assignment.md">CRUD API</a>
+## Score: <a href="https://github.com/AlreadyBored/nodejs-assignments/blob/main/assignments/crud-api/score.md">CRUD API</a>
 
-### Prerequisites
-1. Install [Node.js](https://nodejs.org/en/download/)   
-2. Fork this repository: https://github.com/AlreadyBored/basic-testing
-3. Clone your newly created repo locally: https://github.com/<%your_github_username%>/basic-testing/  
-4. Go to folder `basic-testing`  
-5. To install all dependencies use [`npm install`](https://docs.npmjs.com/cli/install)  
-6. Run **test scripts** in command line.
-7. You will see the number of skipped, passing and failing tests.
+# Assignment: CRUD API
 
----
+## Description
 
-### Test scripts
+# Scoring: CRUD API
 
-```bash
-# run unit tests
-$ npm run test
+ ## Basic Scope
+- [x] +10 The repository with the application contains a Readme.md file containing detailed instructions for installing, running and using the application
+- [x] +10 GET api/users implemented properly
+- [x] +10 GET api/users/{userId} implemented properly
+- [x] +10 POST api/users implemented properly
+- [x] +10 PUT api/users/{userId} implemented properly
+- [x] +10 DELETE api/users/{userId} implemented properly
+- [x] +6 Users are stored in the form described in the technical requirements
+- [x] +6 Value of port on which application is running is stored in .env file
+ ## Advanced Scope
+- [x] +30 Task implemented on Typescript
+- [x] +10 Processing of requests to non-existing endpoints implemented properly
+- [x] +10 Errors on the server side that occur during the processing of a request should be handled and processed properly
+- [x] +10 Development mode: npm script start:dev implemented properly
+- [x] +10 Production mode: npm script start:prod implemented properly
+ ## Hacker Scope
+- [x] +30 There are tests for API (not less than 3 scenarios)
+- [x] +50 There is horizontal scaling for application with a load balancer
 
-# with logging
-$ npm run test:verbose
-```
+## Forfeits
 
----
-
-#### Notes
-1. We recommend you to use Node.js of version 24.x.x (24.10.0 or upper) LTS. If you use any of features, that does not supported by Node.js 24, there may be problems with task submit.
-2. Please, be sure that each of your tests is limited to 30 sec.
-3. Please, be sure you don't have any linter/TS compiler errors.
-
----
-
-## General task description
-Your task is to write unit tests for code, provided in file `index.ts`. 
-
----
-
-### **Simple tests**
-
-Write unit tests for the `simpleCalculator` function, which performs basic mathematical operations - addition, subtraction, division, multiplication, and exponentiation. Your task is to verify that the operations are executed correctly and that the function returns `null` for invalid input.
-
-Write your tests in `src/01-simple-tests/index.test.ts`.
-
----
-
-### **Table tests**
-
-Your task is to rewrite the tests written in the previous task using the table-driven testing approach, utilizing the appropriate Jest API.
-
-Write your tests in `src/02-table-tests/index.test.ts`.
-
----
-
-
-### **Error handling & async**
-
-Your task is to test functions that work asynchronously/throw/reject exceptions..
-
-Write your tests in `src/03-error-handling-async/index.test.ts`.
-
----
-
-### **Testing class**
-
-Your task is to test a class representing a bank account that implements corresponding operations. Please note that some methods of the class invoke others, some operations result in errors, and the implementation is asynchronous and involves the native JS API. These aspects should be taken into account when writing the tests.
-
-Write your tests in `src/04-test-class/index.test.ts`.
-
----
-
-### **Partial mocking**
-
-Your task is to utilize the Jest API to partially mock the contents of a module.
-
-Write your tests in `src/05-partial-mocking/index.test.ts`.
-
----
-
-### **Mocking Node.js API**
-
-Your task is to test the proper usage of the Node.js API based on commonly used APIs such as the `fs` module, as well as `setTimeout` and `setInterval`. Remember that the tests should not interact with the actual file system and should not rely on real-time!
-
-Write your tests in `src/06-mocking-node-api/index.test.ts`.
-
----
-
-### **Mocking library API**
-
-Your task is to test that function that utilize library APIs is working correctly (with commonly used libraries such as `axios` and `lodash` as examples).
-
-Write your tests in `src/07-mocking-lib-api/index.test.ts`.
-
----
-
-### **Snapshot testing**
-
-Your task is to use snapshot testing with Jest and compare it to regular comparison testing.
-
-Write your tests in `src/08-snapshot-testing/index.test.ts`.
-
----
-
-© [AlreadyBored](https://github.com/AlreadyBored)
+- **-95% of total task score** any external tools except `nodemon`, `dotenv`, `cross-env`, `typescript`, `ts-node`, `eslint` and its plugins, `webpack` and its plugins, `prettier`, `uuid`, `@types/*` as well as libraries used for testing
+- **-30% of total task score** Commits after deadline (except commits that affect only Readme.md, .gitignore, etc.)
+- **-20** Missing PR or its description is incorrect
+- **-20** No separate development branch
+- **-20** Less than 3 commits in the development branch, not including commits that make changes only to `Readme.md` or similar files (`tsconfig.json`, `.gitignore`, `.prettierrc.json`, etc.)
+- **-5** The .env file is present in the repository (should be .env.example instead)
