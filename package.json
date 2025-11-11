@@ -1,14 +1,24 @@
 {
-  "name": "node-nodejs",
+  "name": "ws_task",
   "version": "1.0.0",
-  "description": "Node JS",
-  "engines": {
-    "node": ">=24.10.0",
-    "npm": ">=10.9.2"
-  },
+  "description": "Template for the WebSocket remote control task",
+  "main": "index.js",
   "type": "module",
-  "scripts": {
+  "engines": {
+    "node": ">=24.10.0"
   },
-  "author": "DmytroLitvinov",
-  "license": "ISC"
+  "scripts": {
+    "start": "node ./index.js",
+    "start:dev": "nodemon ./index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dmytro Litvinov",
+  "keywords": [],
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  },
+  "dependencies": {
+    "ws": "^8.8.0"
+  }
 }
