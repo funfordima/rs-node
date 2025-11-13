@@ -1,0 +1,16 @@
+import { userModel } from '../models/user.model.js';
+import { RegistrationRequestData, RegistrationResponse } from '../types/wss.type.js';
+
+export const regUser = (name: string, password: string): RegistrationResponse => {
+  const user: RegistrationRequestData | null = userModel.addUser(name, password);
+  const index: number = userModel.getUserIndex(name, password);
+
+  const response: RegistrationResponse = new RegistrationResponse({
+    name: user?.name ?? name,
+    index,
+    error: !user,
+    errorText: !user ? 'User not found.' : '',
+  });
+
+  return response;
+};

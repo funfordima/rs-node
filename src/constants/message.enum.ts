@@ -11,4 +11,5 @@ export enum messageType {
   RANDOM_ATTACK = 'randomAttack',
   TURN = 'turn',
   FINISH = 'finish',
+  ERROR = 'error',
 }
