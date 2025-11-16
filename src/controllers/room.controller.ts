@@ -1,8 +1,10 @@
-import { RoomData, RoomUser, UpdateRoomResponse } from '../types/wss.type.js';
-import { roomModel } from '../models/room.model.js';
+import { WebSocketServer } from 'ws';
+
+import { RoomUser, UpdateRoomResponse } from '../types/wss.type.js';
+import { RoomModel, roomModel } from '../models/room.model.js';
 
 export const updateRoom = (): UpdateRoomResponse => {
-  const rooms: RoomData[] = roomModel.getFreeRooms();
+  const rooms: RoomModel[] = roomModel.getFreeRooms();
 
   const response = new UpdateRoomResponse(rooms);
 
@@ -19,4 +21,23 @@ export const addUserToRoom = (roomId: string | number, user: RoomUser) => {
 
 export const getRoom = (roomId: number | string) => {
   return roomModel.getRoom(roomId);
+};
+
+export const removeRoomUser = (user: RoomUser) => {
+  roomModel.removeRoomUser(user);
+};
+
+export const broadcastRooms = (wss: WebSocketServer) => {
+  const freeRooms: UpdateRoomResponse = updateRoom();
+
+  const responseData = {
+    ...freeRooms,
+    data: JSON.stringify(freeRooms.data),
+  };
+
+  wss.clients.forEach((client) => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(JSON.stringify(responseData));
+    }
+  });
 };

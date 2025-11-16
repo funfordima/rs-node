@@ -74,7 +74,7 @@ export interface ShipPosition {
   y: number;
 }
 
-export interface Ships {
+export interface Ship {
   position: ShipPosition;
   direction: boolean;
   length: number;
@@ -83,12 +83,74 @@ export interface Ships {
 
 export interface ShipsData {
   gameId: number | string;
-  ships: Ships[];
+  ships: Ship[];
   indexPlayer: number | string;
 }
+
+export interface ShipInternal {
+  id: string;
+  cells: { x: number; y: number; hit: boolean }[];
+  type: string;
+};
 
 export class AddShipsRequest extends AbstractMessage<ShipsData> {
   type = messageType.ADD_SHIPS;
 }
 
-export type IncomingMessageRequest = RegistrationRequest | CreateRoomRequest | AddUserRoomRequest | AddShipsRequest;
+export interface StartGameData {
+  ships: Ship[];
+  currentPlayerIndex: number | string;
+};
+
+export class StartGameResponse extends AbstractMessage<StartGameData> {
+  type = messageType.START;
+}
+
+export type Game = {
+  id: string;
+  players: { [playerIndex: string | number]: { user: RoomUser; playerIdInGame: string; ships?: ShipInternal[] } };
+  currentPlayer?: string;
+  finished?: boolean;
+};
+
+export interface TurnData {
+  currentPlayer: number | string;
+};
+
+export class TurnResponse extends AbstractMessage<TurnData> {
+  type = messageType.TURN;
+}
+
+export interface AttackRequestData {
+  gameId: number | string;
+  x: number;
+  y: number;
+  indexPlayer: number | string;
+}
+
+export class AttackRequest extends AbstractMessage<AttackRequestData> {
+  type = messageType.ATTACK;
+}
+
+export interface AttackResponseData {
+  status: 'miss' | 'killed' | 'shot';
+  position: { 
+    x: number;
+    y: number;
+  };
+  currentPlayer: number | string;
+}
+
+export class AttackResponse extends AbstractMessage<AttackResponseData> {
+  type = messageType.ATTACK;
+}
+
+export interface FinishData {
+  winPlayer: number | string;
+};
+
+export class FinishResponse extends AbstractMessage<FinishData> {
+  type = messageType.FINISH;
+}
+
+export type IncomingMessageRequest = RegistrationRequest | CreateRoomRequest | AddUserRoomRequest | AddShipsRequest | AttackRequest;

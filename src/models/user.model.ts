@@ -1,4 +1,4 @@
-import { RegistrationRequestData } from "../types/wss.type.js";
+import { RegistrationRequestData } from '../types/wss.type.js';
 
 const users: RegistrationRequestData[] = [];
 

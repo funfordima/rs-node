@@ -1,44 +1,79 @@
-import { randomUUID } from 'crypto';
+import { RoomData, RoomUser, Ship } from '../types/wss.type.js';
 
-import { RoomData, RoomUser } from '../types/wss.type.js';
+interface ShipsState {
+  x: number;
+  y: number;
+  status: 'miss' | 'killed' | 'shot';
+}
 
-const rooms: RoomData[] = [];
+export interface RoomModel extends RoomData {
+  ships?: {
+    [key: string]: Ship[];
+  };
+  turnUserId?: number;
+  shipsState?: {
+    [key: string]: ShipsState[];
+  };
+  gameMaps?: {
+    [key: string]: number[][];
+  };
+}
+
+let roomId = 0;
+const rooms: RoomModel[] = [];
 
 export const roomModel = {
-  createRoom(user: RoomUser): RoomData | null {
+  createRoom(user: RoomUser): RoomModel | null {
     const existentRoom = rooms.find(r => r.roomUsers.some(u => u.index == user.index));
 
     if (existentRoom) {
       return null;
     }
 
-    const room: RoomData = {
-      roomId: randomUUID(),
+    const room: RoomModel = {
+      roomId: ++roomId,
       roomUsers: [user],
+      turnUserId: user.index,
+      shipsState: {},
     };
+
+    // const room: RoomData = {
+    //   roomId: randomUUID(),
+    //   roomUsers: [user],
+    // };
 
     rooms.push(room);
 
     return room;
   },
 
-  getRoom: (indexRoom: string | number): RoomData | undefined => {
+  getRoom: (indexRoom: string | number): RoomModel | undefined => {
     return rooms.find(r => r.roomId == indexRoom);
   },
 
-  getFreeRooms(): RoomData[] {
+  getRooms: (): RoomModel[] => {
+    return rooms;
+  },
+
+  getFreeRooms(): RoomModel[] {
     return rooms.filter((room) => room.roomUsers.length === 1);
   },
 
-  addUserToRoom(roomId: string | number, user: RoomUser): RoomData | null {
-    const room = rooms.find(r => r.roomId === roomId);
+  addUserToRoom(roomId: string | number, user: RoomUser) {
+    rooms.forEach(r => {
+      if (r.roomId === roomId && !r.roomUsers.some(u => u.index === user.index) && r.roomUsers.length < 2) {
+        r.roomUsers.push(user);
+      }
+    });
+  },
 
-    if (!room || room.roomUsers.some(u => u.index === user.index) || room.roomUsers.length >= 2) {
-      return null;
+  removeRoomUser(user: RoomUser) {
+    for (const room of rooms) {
+      const idx = room.roomUsers.findIndex(u => u.index === user.index);
+        
+      if (idx >= 0) {
+        room.roomUsers.splice(idx, 1);
+      }
     }
-
-    room.roomUsers.push(user);
-
-    return room;
   },
 };

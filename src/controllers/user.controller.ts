@@ -14,3 +14,11 @@ export const regUser = (name: string, password: string): RegistrationResponse =>
 
   return response;
 };
+
+export const hasUser = (name: string): boolean => {
+  return userModel.hasUser(name);
+};
+
+export const getUserIndex = (name: string, password: string): number => {
+  return userModel.getUserIndex(name, password);
+};
