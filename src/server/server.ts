@@ -10,6 +10,7 @@ import {
   ErrorResponse,
   FinishResponse,
   IncomingMessageRequest,
+  RandomAttackData,
   RegistrationRequestData,
   RegistrationResponse,
   RoomUser,
@@ -24,7 +25,7 @@ import { createRoom, updateRoom, addUserToRoom, removeRoomUser, broadcastRooms, 
 import { addWinner, broadcastWinners, getWinners } from '../controllers/winners.controllers.js';
 import { createGame } from '../controllers/game.controller.js';
 import { checkWinnerMap, createGameMap } from '../helpers/utils.js';
-import { makeComputerMove } from '../helpers/bot.js';
+import { generateRandomAttack, makeComputerMove } from '../helpers/bot.js';
 
 const connections = new Map<WebSocket, RoomUser>();
 
@@ -213,8 +214,6 @@ export const createServer = (port: number) => {
               const user = connections.get(client);
 
               if (client.readyState === WebSocket.OPEN && user) {
-                console.log("asdasd", indexRoom);
-
                 const request = createGame(user, indexRoom);
 
                 const responseData = {
@@ -569,6 +568,96 @@ export const createServer = (port: number) => {
             break;
           }
 
+          case messageType.RANDOM_ATTACK: {
+            if (!currentUser) {
+              const errorResponse: ErrorResponse = new ErrorResponse(
+              {
+                name: '',
+                index: 0,
+                error: true,
+                errorText: 'User not found.',
+              });
+
+              ws.send(JSON.stringify(errorResponse));
+              
+              return;
+            }
+
+            const data = JSON.parse(request.data.toString());
+
+            const { gameId, indexPlayer } = data as RandomAttackData;
+
+            const room = getRoom(gameId)!;
+
+            const anotherUser = room.roomUsers.find(u => u.index !== indexPlayer)!;
+
+            if (indexPlayer === room.turnUserId) {
+              const mapGame = room.gameMaps![anotherUser.index]!;
+              
+              const { x, y } = generateRandomAttack(mapGame);
+
+              let status: AttackResponseData['status'] = 'miss';
+
+              if (mapGame[y]![x] === 1) {
+                mapGame[y]![x] = 2;
+                status = 'shot';
+
+                if (checkWinnerMap(mapGame)) {
+                  addWinner((currentUser as RoomUser).name);
+
+                  wss.clients.forEach((client) => {
+                    const finishResponse = new FinishResponse({ winPlayer: (currentUser as RoomUser).index });
+
+                    const finishResponseData = {
+                      ...finishResponse,
+                      data: JSON.stringify(finishResponse.data),
+                    };
+
+                    client.send(JSON.stringify(finishResponseData));
+                  });
+
+                  const winnersResponse = getWinners();
+
+                  const winnersResponseData = {
+                    ...winnersResponse,
+                    data: JSON.stringify(winnersResponse.data),
+                  };
+
+                  wss.clients.forEach((client) => client.send(JSON.stringify(winnersResponseData)));
+                }
+              }
+
+              const attackResponse = new AttackResponse({
+                position: { x, y },
+                currentPlayer: (currentUser as RoomUser).index,
+                status: status,
+              });
+
+              const attackResponseData = {
+                ...attackResponse,
+                data: JSON.stringify(attackResponse.data),
+              };
+
+              ws.send(JSON.stringify(attackResponseData));
+
+              if (room) {
+                if (anotherUser) {
+                  room.turnUserId = status === 'miss' ? anotherUser.index : currentUser.index;
+
+                  wss.clients.forEach((client) => {
+                    const turnResponse = new TurnResponse({ currentPlayer: room.turnUserId! });
+
+                    const turnResponseData = {
+                      ...turnResponse,
+                      data: JSON.stringify(turnResponse.data),
+                    };
+    
+                    client.send(JSON.stringify(turnResponseData));
+                  });
+                }
+              }
+            }
+          }
         }
       } catch (error) {
         console.error("Error handling message:", error);

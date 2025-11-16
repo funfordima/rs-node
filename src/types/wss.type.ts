@@ -153,4 +153,13 @@ export class FinishResponse extends AbstractMessage<FinishData> {
   type = messageType.FINISH;
 }
 
-export type IncomingMessageRequest = RegistrationRequest | CreateRoomRequest | AddUserRoomRequest | AddShipsRequest | AttackRequest;
+export interface RandomAttackData {
+  gameId: number | string;
+  indexPlayer: number | string;
+};
+
+export class RandomAttackRequest extends AbstractMessage<RandomAttackData> {
+  type = messageType.RANDOM_ATTACK;
+}
+
+export type IncomingMessageRequest = RegistrationRequest | CreateRoomRequest | AddUserRoomRequest | AddShipsRequest | AttackRequest | RandomAttackRequest;
