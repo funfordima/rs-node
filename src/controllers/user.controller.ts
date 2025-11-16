@@ -5,7 +5,7 @@ export const regUser = (name: string, password: string): RegistrationResponse =>
   const user: RegistrationRequestData | null = userModel.addUser(name, password);
   const index: number = userModel.getUserIndex(name, password);
 
-  const response: RegistrationResponse = new RegistrationResponse({
+  const response = new RegistrationResponse({
     name: user?.name ?? name,
     index,
     error: !user,
