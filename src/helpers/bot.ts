@@ -88,3 +88,84 @@ export const makeComputerMove = (
     ws.send(JSON.stringify(turnResponse));
   }
 };
+
+export const generateComputerShips = (): Ship[] => {
+  const ships: Ship[] = [];
+  const shipLengths = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
+
+  for (const length of shipLengths) {
+    let placed = false;
+
+    while (!placed) {
+      const x = Math.floor(Math.random() * 10);
+      const y = Math.floor(Math.random() * 10);
+      const direction = Math.random() > 0.5;
+
+      let canPlace = true;
+
+      for (let i = 0; i < length; i++) {
+        const checkX = direction ? x : x + i;
+        const checkY = direction ? y + i : y;
+
+        if (checkX >= 10 || checkY >= 10) {
+          canPlace = false;
+
+          break;
+        }
+
+        for (let dx = -1; dx <= 1; dx++) {
+          for (let dy = -1; dy <= 1; dy++) {
+            const nx = checkX + dx;
+            const ny = checkY + dy;
+
+            if (nx >= 0 && nx < 10 && ny >= 0 && ny < 10) {
+              if (
+                ships.some((ship) => {
+                  for (let j = 0; j < ship.length; j++) {
+                    const shipX = ship.direction
+                      ? ship.position.x
+                      : ship.position.x + j;
+                    const shipY = ship.direction
+                      ? ship.position.y + j
+                      : ship.position.y;
+
+                    if (shipX === nx && shipY === ny) {
+                      return true;
+                    }
+                  }
+
+                  return false;
+                })
+              ) {
+                canPlace = false;
+
+                break;
+              }
+            }
+          }
+
+          if (!canPlace) {
+            break;
+          }
+        }
+
+        if (!canPlace) {
+            break;
+          }
+      }
+
+      if (canPlace) {
+        ships.push({
+          position: { x, y },
+          direction,
+          length,
+          type: 'small',
+        });
+        
+        placed = true;
+      }
+    }
+  }
+
+  return ships;
+};

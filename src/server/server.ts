@@ -1,5 +1,6 @@
 import http, { IncomingMessage, ServerResponse } from 'http';
 import { WebSocketServer, WebSocket } from 'ws';
+import { randomUUID } from 'crypto';
 
 import { messageType } from '../constants/message.enum.js';
 import {
@@ -25,7 +26,7 @@ import { createRoom, updateRoom, addUserToRoom, removeRoomUser, broadcastRooms, 
 import { addWinner, broadcastWinners, getWinners } from '../controllers/winners.controllers.js';
 import { createGame } from '../controllers/game.controller.js';
 import { checkWinnerMap, createGameMap } from '../helpers/utils.js';
-import { generateRandomAttack, makeComputerMove } from '../helpers/bot.js';
+import { generateComputerShips, generateRandomAttack, makeComputerMove } from '../helpers/bot.js';
 
 const connections = new Map<WebSocket, RoomUser>();
 
@@ -657,6 +658,55 @@ export const createServer = (port: number) => {
                 }
               }
             }
+          }
+
+          case messageType.SINGLE_GAME: {
+            if (!currentUser) {
+              const errorResponse: ErrorResponse = new ErrorResponse(
+              {
+                name: '',
+                index: 0,
+                error: true,
+                errorText: 'User not found.',
+              });
+
+              ws.send(JSON.stringify(errorResponse));
+              
+              return;
+            }
+
+            const gameId = randomUUID();
+
+            const computerShips = generateComputerShips();
+            const playerMap = createGameMap([]);
+            const computerMap = createGameMap(computerShips);
+
+            const gameState = {
+              id: gameId,
+              playerIndex: currentUser.index,
+              computerIndex: -1,
+              playerMap,
+              computerMap,
+              computerShips,
+              currentTurn: currentUser.index,
+            };
+
+            if (!singlePlayerGames) {
+              singlePlayerGames = new Map();
+            }
+
+            singlePlayerGames.set(gameId, gameState);
+
+            const request = createGame(currentUser, gameId);
+
+            const responseData = {
+              ...request,
+              data: JSON.stringify(request.data),
+            };
+
+            ws.send(JSON.stringify(responseData));
+            
+            break;
           }
         }
       } catch (error) {
