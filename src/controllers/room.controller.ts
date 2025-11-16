@@ -37,6 +37,7 @@ export const broadcastRooms = (wss: WebSocketServer) => {
 
   wss.clients.forEach((client) => {
     if (client.readyState === WebSocket.OPEN) {
+      console.log(responseData);
       client.send(JSON.stringify(responseData));
     }
   });

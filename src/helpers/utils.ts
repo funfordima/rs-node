@@ -24,14 +24,3 @@ export const checkWinnerMap = (map: number[][]) => {
 
   return result >= 20;
 };
-
-export const printGameMap = (map: number[][], indexPlayer: number): void => {
-  console.log("Card game for player", indexPlayer);
-  console.log("  0 1 2 3 4 5 6 7 8 9");
-
-  map.forEach((row, y) => {
-    console.log(`${y} ${row.join(" ")}`);
-  });
-  
-  console.log("\n");
-};

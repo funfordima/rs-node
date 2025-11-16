@@ -3,9 +3,8 @@ import { WebSocketServer, WebSocket } from 'ws';
 
 import { messageType } from '../constants/message.enum.js';
 import {
-  AddShipsRequest,
-  AddUserRoomRequest,
-  AttackRequest,
+  AddUserRoomRequestData,
+  AttackRequestData,
   AttackResponse,
   AttackResponseData,
   ErrorResponse,
@@ -15,6 +14,7 @@ import {
   RegistrationResponse,
   RoomUser,
   Ship,
+  ShipsData,
   StartGameResponse,
   TurnResponse,
   UpdateRoomResponse,
@@ -23,7 +23,7 @@ import { getUserIndex, hasUser, regUser } from '../controllers/user.controller.j
 import { createRoom, updateRoom, addUserToRoom, removeRoomUser, broadcastRooms, getRoom } from '../controllers/room.controller.js';
 import { addWinner, broadcastWinners, getWinners } from '../controllers/winners.controllers.js';
 import { createGame } from '../controllers/game.controller.js';
-import { checkWinnerMap, createGameMap, printGameMap } from '../helpers/utils.js';
+import { checkWinnerMap, createGameMap } from '../helpers/utils.js';
 import { makeComputerMove } from '../helpers/bot.js';
 
 const connections = new Map<WebSocket, RoomUser>();
@@ -201,7 +201,9 @@ export const createServer = (port: number) => {
               return;
             }
             
-            const { indexRoom } = (request as AddUserRoomRequest).data;
+            const data = JSON.parse(request.data.toString());
+            
+            const { indexRoom } = data as AddUserRoomRequestData;
 
             addUserToRoom(indexRoom, currentUser);
 
@@ -211,6 +213,8 @@ export const createServer = (port: number) => {
               const user = connections.get(client);
 
               if (client.readyState === WebSocket.OPEN && user) {
+                console.log("asdasd", indexRoom);
+
                 const request = createGame(user, indexRoom);
 
                 const responseData = {
@@ -240,8 +244,12 @@ export const createServer = (port: number) => {
               return;
             }
 
-            const { gameId, ships, indexPlayer } = (request as AddShipsRequest).data;
+            const data = JSON.parse(request.data.toString());
 
+            const { gameId, ships, indexPlayer } = data as ShipsData;
+
+            if (!gameId) return;
+            
             const singleGame = singlePlayerGames.get(gameId.toString());
 
             if (singleGame) {
@@ -368,8 +376,10 @@ export const createServer = (port: number) => {
               return;
             }
 
-            const { gameId, x, y, indexPlayer } = (request as AttackRequest).data;
-            
+            const data = JSON.parse(request.data.toString());
+
+            const { gameId, x, y, indexPlayer } = data as AttackRequestData;
+
             const singleGame = singlePlayerGames.get(gameId.toString());
 
             if (singleGame) {
@@ -499,8 +509,6 @@ export const createServer = (port: number) => {
                 mapGame[y]![x] = 2;
 
                 status = 'shot';
-
-                printGameMap(mapGame, indexPlayer);
                 
                 if (checkWinnerMap(mapGame)) {
                   addWinner((currentUser as RoomUser).name);

@@ -7,6 +7,8 @@ interface ShipsState {
 }
 
 export interface RoomModel extends RoomData {
+  roomId: string | number;
+  roomUsers : RoomUser[];
   ships?: {
     [key: string]: Ship[];
   };
@@ -36,6 +38,8 @@ export const roomModel = {
       turnUserId: user.index,
       shipsState: {},
     };
+
+    console.log(room);
 
     // const room: RoomData = {
     //   roomId: randomUUID(),
